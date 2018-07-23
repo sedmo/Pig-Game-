@@ -20,28 +20,26 @@ diceDOM = document.querySelector('.dice');
 
 initVals();
 
+var previousRoll;
+
 //Roll Dice button function
 document.querySelector('.btn-roll').addEventListener('click', function () {
 
-    var previousRoll=0;
 
     if (gamePlaying) {
         //1. create a 6 sided dice
         let dice = Math.floor(Math.random() * 6) + 1;
 
         // Check if previousRoll was assigned before 
-        if(previousRoll===0){
-            previousRoll=dice;
-        } else{
-            //check if prev roll and dice are 6
-            if(previousRoll===6&&dice===6){
-                //update GLOBAL score and UI
-                scores[activePlayer]=0;
-                document.getElementById(`score-${activePlayer}`).textContent = '0';
-                nextPlayer();
-            }
-
+        //check if prev roll and dice are 6
+        if (previousRoll === 6 && dice === 6) {
+            //update GLOBAL score and UI
+            scores[activePlayer] = 0;
+            document.getElementById(`score-${activePlayer}`).textContent = '0';
+            nextPlayer();
         }
+
+        previousRoll = dice;
 
         //2. display the results
         diceDOM.style.display = 'block';
@@ -62,29 +60,29 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
 //Hold button function
 document.querySelector('.btn-hold').addEventListener('click', function () {
 
-    if(gamePlaying){
+    if (gamePlaying) {
         //Add CURRENT score to GLOBAL score
-    scores[activePlayer] += roundScore;
+        scores[activePlayer] += roundScore;
 
-    //Update UI
-    document.querySelector(`#score-${activePlayer}`).textContent = scores[activePlayer];
+        //Update UI
+        document.querySelector(`#score-${activePlayer}`).textContent = scores[activePlayer];
 
-    //Check if player won the game, if not, only then will it continue
-    if (scores[activePlayer] >= winningScore) {
-        gamePlaying = false;
-        document.getElementById(`name-${activePlayer}`).textContent = 'Winner!';
-        diceDOM.style.display = 'none';
-        document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
-        document.querySelector(`.player-${activePlayer}-panel`).classList.remove('active');
-        //play audio
-        document.getElementById('winningSound').play();
+        //Check if player won the game, if not, only then will it continue
+        if (scores[activePlayer] >= winningScore) {
+            gamePlaying = false;
+            document.getElementById(`name-${activePlayer}`).textContent = 'Winner!';
+            diceDOM.style.display = 'none';
+            document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
+            document.querySelector(`.player-${activePlayer}-panel`).classList.remove('active');
+            //play audio
+            document.getElementById('winningSound').play();
 
-    } else {
-        //Next Player
-        nextPlayer();
+        } else {
+            //Next Player
+            nextPlayer();
+        }
     }
-    }
-    
+
 });
 
 //New game button
@@ -114,11 +112,11 @@ function initVals() {
     diceDOM.style.display = 'none'; //initially, we don't want to see the dice
 
     //find winning score from input field and remove box after finding
-    document.getElementById('user_score_input').addEventListener('keyup', function(event){
-        if(event.keyCode === 13){
+    document.getElementById('user_score_input').addEventListener('keyup', function (event) {
+        if (event.keyCode === 13) {
             winningScore = document.getElementById('user_score_input').value;
             //remove/hide the box
-            document.querySelector('#user_input_box').style.display='none';
+            document.querySelector('#user_input_box').style.display = 'none';
         }
     })
 
