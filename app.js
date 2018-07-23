@@ -11,6 +11,7 @@ GAME RULES:
 **BONUS:
 - A player looses his ENTIRE score when he rolls two 6s in a row. After that, it's the next players turn. 
 - Add an input field where players can set the score
+- Add an audio when player wins
 */
 
 //Initial Values
@@ -75,6 +76,8 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
         diceDOM.style.display = 'none';
         document.querySelector(`.player-${activePlayer}-panel`).classList.add('winner');
         document.querySelector(`.player-${activePlayer}-panel`).classList.remove('active');
+        //play audio
+        document.getElementById('winningSound').play();
 
     } else {
         //Next Player
